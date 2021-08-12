@@ -1,0 +1,66 @@
+[
+    {
+        "_id": {
+            "$oid": "6056435ac96fe445d13d9686"
+        },
+        "roomid": "-3305565465668137233",
+        "users": [
+            "aj",
+            "sharven"
+        ],
+        "type": "private",
+        "messages": []
+    },
+    {
+        "_id": {
+            "$oid": "6056435fc96fe445d13d9687"
+        },
+        "roomid": "-6322395852677331655",
+        "users": [
+            "aj",
+            "dummyuser10"
+        ],
+        "type": "private",
+        "messages": []
+    },
+    {
+        "_id": {
+            "$oid": "60564360c96fe445d13d9688"
+        },
+        "roomid": "-9036191225128868024",
+        "users": [
+            "aj",
+            "Huzaifa_11"
+        ],
+        "type": "private",
+        "messages": []
+    },
+    {
+        "_id": {
+            "$oid": "605643a925bb901d24402e43"
+        },
+        "roomid": "-3305565465668137234",
+        "groupname": "yeet",
+        "users": [
+            "sharven",
+            "dummyuser10"
+        ],
+        "type": "group",
+        "status": "open",
+        "messages": []
+    },
+    {
+        "_id": {
+            "$oid": "605643e825bb901d24402e44"
+        },
+        "roomid": "-3305565465668137236",
+        "groupname": "kanye",
+        "users": [
+            "Huzaifa_11",
+            "dummyuser10"
+        ],
+        "type": "group",
+        "status": "open",
+        "messages": []
+    }
+]

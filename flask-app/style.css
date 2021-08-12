@@ -1,0 +1,92 @@
+body {
+	text-align:center;
+	background-color: #f2d4b1;
+	text-decoration: none;
+}
+
+a {
+	text-decoration: none;
+}
+
+footer {
+	margin-top: 50px;
+	font-family: 'Open Sans', sans-serif;
+	font-size: 16px;
+}
+
+.logo {
+	font-family: 'Caveat', cursive;
+	font-size:120px;
+    height:60px;
+    letter-spacing: 5px;
+    margin-top: 175px;
+}
+
+.slogan {
+	font-family: 'Montserrat', sans-serif;
+	font-size:20px;
+	letter-spacing: 5px;
+	margin-bottom: 50px;
+}
+
+.text-field {
+	height: 25px;
+	width: 350px;
+	font-size: 15px;
+    text-align: center;
+    letter-spacing: 2px;
+    opacity: 80%;
+    border: none;
+    border-radius: 20px 20px 20px 20px;
+    font-family: 'Open Sans', sans-serif;
+    outline: none;
+    border: 1px solid brown;
+}
+
+.submit {
+	margin-top: 7.5px;
+	background-color: brown;
+	height: 25px;
+	width: 275px;
+	color: white;
+	border: none;
+	text-decoration: none;
+	letter-spacing: 1px;
+	cursor: pointer;
+	border-radius: 20px 20px 20px 20px;
+	font-size: 15px;
+	outline: none;
+}
+
+.ver-code-submit {
+	margin-top: 7.5px;
+	background-color: brown;
+	height: 25px;
+	width: 170px;
+	color: white;
+	border: none;
+	text-decoration: none;
+	letter-spacing: 1px;
+	cursor: pointer;
+	border-radius: 20px 20px 20px 20px;
+	font-size: 15px;
+	outline: none;
+}
+
+.register-link {
+	font-family: 'Open Sans', sans-serif;
+	font-size: 16px;
+}
+
+.error-msg {
+	font-family: 'Roboto', sans-serif;
+	color: red;
+	font-size: 15px;
+}
+
+.register-header {
+	font-family: 'Caveat', cursive;
+	font-size: 60px;
+	letter-spacing: 2px;
+	margin-top: 250px;
+}

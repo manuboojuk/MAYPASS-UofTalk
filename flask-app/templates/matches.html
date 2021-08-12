@@ -1,0 +1,130 @@
+{% extends "base.html" %}
+{% block page_title %}Matches{% endblock %}
+{% block content %}
+<!DOCTYPE html>
+
+
+<html lang="en">
+	<head>
+		<meta charset="utf8">
+		<title>UofTalk</title>
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Montserrat:ital,wght@1,200;1,400&family=Open+Sans:ital@1&family=Roboto&display=swap" rel="stylesheet">
+	</head>
+	<body>
+	
+	<style>
+	/* text colour */
+	.btn{
+		color: brown;
+		border-color: brown;
+	}
+	.nav-pills .nav-link.active{
+		background-color: brown;
+		color: white;
+	}
+	</style>
+		<section class="matches_section" style="display: flex; width: 100%; margin: 0 auto;">
+			<p class="matches_slogan" style="text-align: center; margin-left: auto; margin-right: auto;">
+				Here are the people our sophisticated AI has matched you up with, say hi!!
+			</p>
+		</section>
+		<section>
+
+			<div style="display: flex; margin: auto; width: 50%;" class="sidebar-header">
+				<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+					<li class="nav-item" role="presentation">
+						<button class="nav-link active" id="pills-personal-tab" data-bs-toggle="pill" data-bs-target="#pills-personal" type="button" role="tab" aria-controls="pills-tab" aria-selected="true">Personal</button>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button class="nav-link" id="pills-group-tab" data-bs-toggle="pill" data-bs-target="#pills-group" type="button" role="tab" aria-controls="pills-group" aria-selected="false">Groups</button>
+					</li>
+				</ul>
+			</div>
+
+
+			<!--This div is for the content corresponding to each tab-->
+			<div class="tab-content" id="pills-tabContent">
+				<!--This div is for the Personal chats tab-->
+				<div class="tab-pane fade show active" id="pills-personal" role="tabpanel" aria-labelledby="pills-personal-tab">
+					<form action="/chatroom" method="POST">
+						<ul class="matches_box">
+							{% for match in matches_list %}
+								{% if match['username'] not in blocklist %}
+								<li>
+									<div class="{{ 'match_grid_wrapper_viewed' if match['username'] in read else 'match_grid_wrapper'}}">
+										<!-- {% if match['username'] in read%}
+										<p>match</p>
+										{% endif %} -->
+										<a href="/user/{{match['username']}}"><div>
+											<img src="{{ url_for('static', filename='default_avatar.png') }}" height="70" width="70">
+										</div>
+										<div class="matches_username">
+											{{ match['username'] }}
+										</a>
+										</div>
+										<div class="matches_bio">
+											{{ match['bio'] }}
+										</div>
+										<div>
+											<button class="{{ 'submit_say_hi_viewed' if match['username'] in read else 'submit_say_hi'}}" type="submit" name="{{ 'match-open-chat' if match['username'] in read else 'sayhi'}}" value="{{ match['username']}}"> Say Hi!</button>
+										</div>
+									
+									</div>
+								</li>
+								{%endif%}
+							{% endfor %}
+						</ul>
+					</form>
+				</div>
+				<!--This div is for the group chats tab-->
+				<div class="tab-pane fade" id="pills-group" role="tabpanel" aria-labelledby="pills-group-tab">
+					<form action="/chatroom" method="POST">
+
+						<ul class="matches_box">
+							{% for group in group_list %}
+								<li>
+									<div class="{{ 'match_grid_wrapper_viewed' if group['groupname'] in in_groups else 'match_grid_wrapper'}}">
+										<a href="/group/{{group['roomid']}}">
+										<div>
+											<img src="{{ url_for('static', filename='default_avatar.png') }}" height="70" width="70">
+										</div>
+										<div class="matches_username">
+											{{ group['groupname'] }}
+										</a>
+										</div>
+										
+										<div class="matches_bio">
+											{{ group['status'] }}
+										</div>
+										<div>
+											<button class="{{ 'submit_say_hi_viewed' if group['groupname'] in in_groups else 'submit_say_hi'}}" type="submit" name="join-group" value="{{ group['roomid']}}"> Say Hi!</button>
+										</div>
+									
+									</div>
+								</li>
+							{% endfor %}
+						</ul>
+					</form>
+				</div>
+			</div>
+		</section>
+		<section>
+			<form method="POST" action="/matches">
+				<div class="re-calc_matches_box">
+					<label class="re-calc_matches_prompt" for="match_category">Narrow down your matches by selecting a specific category to match on</label>
+					<select name="match_category" id="match_category">
+						<option {% if match_category == 'overall' %} selected {% endif %} value="overall">Overall</option>
+						<option {% if match_category == 'movie' %} selected {% endif %} value="movie">Movies</option>
+						<option {% if match_category == 'humor' %} selected {% endif %} value="humor">Humor</option>
+						<option {% if match_category == 'game' %} selected {% endif %} value="game">Games</option>
+						<option {% if match_category == 'music' %} selected {% endif %} value="music">Music</option>
+					</select>
+					<input class="re-calc_matches_button" type="submit" name="re-calc" value="Re-Calculate Matches">
+				</div>
+			</form>
+		</section>
+	</body>
+</html>
+{% endblock %}

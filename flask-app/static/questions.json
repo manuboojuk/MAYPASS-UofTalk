@@ -1,0 +1,142 @@
+{
+    "music": [
+        {
+            "number": "1",
+            "question": "Which genre of music would you closely associate with?",
+            "options": [
+                "Pop",
+                "Rock",
+                "Lofi",
+                "Orchestral",
+                "Other"
+            ]
+        },
+        {
+            "number": "2",
+            "question": "Music is an essential need in your day to day life.",
+            "options": [
+                "Strongly Disagree",
+                "Disagree",
+                "Neutral",
+                "Agree",
+                "Strongly Agree"
+            ]
+        },
+        {
+            "number": "3",
+            "question": "How often do you listen to music?",
+            "options": [
+                "Never",
+                "Rarely",
+                "Sometimes",
+                "Often",
+                "Everyday"
+            ]
+        },
+        {
+            "number": "4",
+            "question": "Music helps you focus when you study.",
+            "options": [
+                "Strongly Disagree",
+                "Disagree",
+                "Neutral",
+                "Agree",
+                "Strongly Agree"
+            ]
+        }
+    ],
+
+    "movie": [
+        {
+            "number": "5",
+            "question": "Which genre of film or TV shows would you closely associate with?",
+            "options": [
+                "Action",
+                "Drama",
+                "Horror",
+                "Comedy",
+                "Romance"
+            ]
+        },
+        {
+            "number": "6",
+            "question": "How often do you watch movies/TV shows?",
+            "options": [
+                "Never",
+                "Rarely",
+                "Sometimes",
+                "Often",
+                "Everyday"
+            ]
+        },
+        {
+            "number": "7",
+            "question": "How do you watch your movies/TV shows?",
+            "options": [
+                "Netflix",
+                "Disney+",
+                "Amazon Prime",
+                "Other",
+                "N/A"
+            ]
+        },
+        {
+            "number": "8",
+            "question": "Superhero movies are a work of art.",
+            "options": [
+                "Strongly Disagree",
+                "Disagree",
+                "Neutral",
+                "Agree",
+                "Strongly Agree"
+            ]
+        }
+    ],
+
+    "game": [
+        {
+            "number": "9",
+            "question": "Which genre of video games would you closely associate with?",
+            "options": [
+                "Action",
+                "Adventure",
+                "FPS",
+                "Horror",
+                "Other"
+            ]
+        },
+        {
+            "number": "10",
+            "question": "How often do you play video games?",
+            "options": [
+                "Never",
+                "Rarely",
+                "Sometimes",
+                "Often",
+                "Everyday"
+            ]
+        },
+        {
+            "number": "11",
+            "question": "Where do you get your games from?",
+            "options": [
+                "EB/Gamestop",
+                "Steam",
+                "Epic",
+                "Other",
+                "N/A"
+            ]
+        },
+        {
+            "number": "12",
+            "question": "Which platform do you play video games on?",
+            "options": [
+                "PC",
+                "Console",
+                "Mobile",
+                "Arcade",
+                "N/A"
+            ]
+        }
+    ]
+}

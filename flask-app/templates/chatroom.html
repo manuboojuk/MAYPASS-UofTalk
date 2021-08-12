@@ -1,0 +1,323 @@
+{% extends "base.html" %}
+{% block page_title %}Chat{% endblock %}
+{% block content %}
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Chat Room</title>
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+	<style>
+		/* text colour */
+
+		.nav-pills .nav-link.active {
+			background-color: brown;
+			color: white;
+		}
+	</style>
+	
+	<div class="chat-body">
+		<div class="sidebar">
+			<!--This div is for the tabs-->
+			<div class="sidebar-header">
+				<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">					
+					<li class="nav-item" role="presentation">	
+						<button id="pills-personal-tab" data-bs-toggle="pill" data-bs-target="#pills-personal"
+							type="button" role="tab" aria-controls="pills-tab" aria-selected="true">Personal</button>
+					</li>
+					<li class="nav-item" role="presentation">
+						<button id="pills-group-tab" data-bs-toggle="pill" data-bs-target="#pills-group" type="button"
+							role="tab" aria-controls="pills-group" aria-selected="false">Groups</button>
+					</li>
+				</ul>					
+			</div>
+
+			<!--This div is for the content corresponding to each tab-->
+			<div class="tab-content" id="pills-tabContent">
+				<!--This div is for the Personal chats tab-->
+				<div id="pills-personal" role="tabpanel" aria-labelledby="pills-personal-tab">
+					<!--This form is for the personal chats tab-->
+					<form action="/chatroom" method="POST">
+						<ul class="chats_list">
+							{% for roomid in active_chats %}
+							{% if active_chats[roomid] not in blocklist %}
+							<li>
+								<div class="chat-row">
+									<div class="chat-avatar">
+										<img src="{{ url_for('static', filename='default_avatar.png') }}" height="50"
+											width="50">
+									</div>
+									<div class="chat-username">
+										<h5>{{active_chats[roomid]}}</h3>
+									</div>
+									<button onclick="privatePanel()" class="submit_say_hi" name="open-chat"
+										type="submit" value="{{roomid}}">
+										Talk
+									</button>
+									<hr>
+								</div>
+							</li>
+							{%endif%}
+							{% endfor %}
+						</ul>
+
+					</form>
+				</div>
+
+				<!--This div is for the group chats tab-->
+				<div id="pills-group" role="tabpanel" aria-labelledby="pills-group-tab">
+					<!--This form is for the groups tab-->
+					<form action="/chatroom" method="POST">
+						<ul class="chats_list">
+							{% for roomid in active_groups %}
+							<li>
+								<div class="chat-row">
+									<div class="chat-avatar">
+										<img src="{{ url_for('static', filename='default_avatar.png') }}" height="50"
+											width="50">
+									</div>
+									<div class="chat-username">
+										<h5>{{active_groups[roomid]['groupname']}}</h3>
+									</div>
+									<button onclick="groupPanel()" class="submit_say_hi" name="open-group" type="submit"
+										value="{{roomid}}">
+										Talk
+									</button>
+									<hr>
+								</div>
+							</li>
+							{% endfor %}
+						</ul>
+					</form>
+				</div>
+			</div>
+		</div>
+
+		<div class="chatbox">
+			<div class="chat-header">
+
+				<div class="chat-header-left">
+					{%if curr_type == 'private'%}
+					<!--This form is for the "Create Group" button-->
+					<form id="group-form" action="/chatroom" method="POST">
+						<button class="btn btn-success" id="create-group" name="create-group"
+							onclick="createGroupPrompt()" value={{chatname}}>Create Group</button>
+						<input type="hidden" id="group-name" name="group-name">
+					</form>
+					{%endif%}
+				</div>
+				<div class="chat-header-center">
+					{%if curr_type == 'private'%}
+					<a href="/user/{{chatname}}">
+					<img src="{{ url_for('static', filename='default_avatar.png') }}" height="35" width="35">
+					<h5 >{{chatname}}</h5>
+					</a>
+					{%else%}
+					<a href="/group/{{room}}">
+					<img src="{{ url_for('static', filename='default_avatar.png') }}" height="35" width="35">
+					<h5 >{{chatname}}</h5>
+					</a>
+					{%endif%}
+				</div>
+				<div class="chat-header-right">
+					{% if curr_type == 'group' %}
+					<form id="privacy-form" action="/chatroom" method="POST">
+						<div class="btn-group">
+							<button type="button" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+							Privacy
+							</button>
+							<div class="dropdown-menu">
+								<button id="open-priv" class="dropdown-item" aria-current="true" type="submit" name="status" value="open" onclick="privacyOpenAlert()">Open</button>
+							<div class="dropdown-divider"></div>
+								<button id="closed-priv" class="dropdown-item" type="submit" name="status" value="closed" onclick="privacyClosedAlert()">Closed</button>
+							</div>
+						</div>
+						<input type="hidden" name="group-roomid" value={{room}}>
+					</form>
+					{%endif%}
+					<button onclick="leaveRoom()" class="btn btn-danger"> Leave </button>
+				</div>
+			</div>
+
+			<div id="msglog">
+				{% for message in messages%}
+					{%if message['sender'] == username%}
+						<div class="sent-message"> <strong> {{message['sender']}} </strong> : {{message['message']}} </div>
+					{%else%}
+						{%if message['sender'] in blocklist%}
+							<div class="blocked-message"> <strong> {{message['sender']}} : [MESSAGE FROM BLOCKED USER] </strong> </div>
+						{%else%}
+							<div class="received-message"> <strong> {{message['sender']}} </strong> : {{message['message']}} </div>
+						{%endif%}
+					{%endif%}
+				{% endfor %}
+
+			</div>
+
+			<form id="message_form">
+				<input type="text" id="message_input" placeholder="Enter message"></input>
+				<button type="submit" class="btn btn-primary"> Send </button>
+			</form>
+
+		</div>
+	</div>
+
+	{% if curr_type == 'group'%}
+	<script>
+		// Deactive Private
+		document.getElementById("pills-personal-tab").className = "nav-link";
+		document.getElementById("pills-personal").className = "tab-pane fade";
+
+		// Activate Groups
+		document.getElementById("pills-group-tab").className = "nav-link active";
+		document.getElementById("pills-group").className = "tab-pane fade show active";
+	</script>
+	{%else%}
+	<script>
+		// Deactive Groups
+		document.getElementById("pills-group-tab").className = "nav-link";
+		document.getElementById("pills-group").className = "tab-pane fade";
+
+		// Activate Private
+		document.getElementById("pills-personal-tab").className = "nav-link active";
+		document.getElementById("pills-personal").className = "tab-pane fade show active";
+	</script>
+	{%endif%}
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.js"></script>
+<script>
+	const socket = io();
+
+	socket.on('connect', function () {
+		socket.emit('join_room', {
+			username: "{{ username }}",
+			room: "{{ room }}"
+		})
+
+		let message_input = document.getElementById('message_input');
+		document.getElementById("message_form").onsubmit = function (event) {
+			event.preventDefault();
+			let message = message_input.value.trim();
+			if (message.length > 0) {
+				socket.emit('send_message', {
+					username: "{{ username }}",
+					room: "{{ room }}",
+					message: message
+				})
+			}
+			message_input.value = "";
+		}
+	});
+
+	function leaveRoom() {
+		socket.emit('leave_room', {
+			username: "{{ username }}",
+			room: "{{ room }}"
+		})
+		window.location.pathname = "/chatroom";
+	};
+
+	socket.on('receive_message', function (data) {
+		console.log(data);
+		const announcementNode = document.createElement('div');
+		message = htmlEncode(data.message);
+		announcementNode.innerHTML = `${data.username.bold()}: ${message}`;
+		if (data.username == '{{username}}') {
+			announcementNode.className = 'sent-message';
+		}
+		
+		else{
+			announcementNode.className = 'received-message';
+		}
+
+		
+		var blocklist = {{ blocklist|safe }};
+		for (i in blocklist){
+			if (data.username == blocklist[i]) {
+				console.log("hiii");
+				announcementNode.innerHTML = `${data.username.bold()}: <b>[MESSAGE FROM BLOCKED USER]</b>`;
+				
+				
+			}
+		}
+		console.log(announcementNode.className);
+
+		var msglog = document.getElementById('msglog');
+		msglog.appendChild(announcementNode);
+		msglog.scrollTop = scroll.scrollHeight;
+
+	});
+
+	socket.on('join_room_announcement', function (data) {
+		console.log(data);
+		const announcementNode = document.createElement('div');
+		//announcementNode.innerHTML = `<b>${data.username} has joined the room </b>`;
+		//document.getElementById('msglog').appendChild(announcementNode);
+
+	});
+
+	socket.on('leave_room_announcement', function (data) {
+		console.log(data);
+		const newNode = document.createElement('div');
+		//newNode.innerHTML = `<b>${data.username} has left the room </b>`;
+		//document.getElementById('msglog').appendChild(newNode);
+	});
+
+	function htmlEncode(str) {
+		return String(str).replace(/[^\w. ]/gi, function (c) {
+			return '&#' + c.charCodeAt(0) + ';';
+		});
+	}
+
+	var scroll = document.getElementById('msglog');
+	scroll.scrollTop = scroll.scrollHeight;
+
+	function createGroupPrompt() {
+		let groupName = prompt("Please set a group name");
+		document.getElementById("group-name").value = groupName;
+		document.getElementById("group-form").submit();
+	}
+
+	function privacyOpenAlert(){
+		alert("This chat is now open! Other users may join.");
+	}
+
+	function privacyClosedAlert(){
+		alert("This chat is now closed! Other users won't be able to join.");
+	}
+
+	function privatePanel() {
+		// Deactive Groups
+		document.getElementById("pills-group-tab").className = "nav-link";
+		document.getElementById("pills-group").className = "tab-pane fade";
+
+		// Activate Private
+		document.getElementById("pills-personal-tab").className = "nav-link active";
+		document.getElementById("pills-personal").className = "tab-pane fade show active";
+	}
+
+	function groupPanel() {
+		// Deactive Private
+		document.getElementById("pills-personal-tab").className = "nav-link";
+		document.getElementById("pills-personal").className = "tab-pane fade";
+
+		// Activate Groups
+		document.getElementById("pills-group-tab").className = "nav-link active";
+		document.getElementById("pills-group").className = "tab-pane fade show active";
+
+	}
+</script>
+
+</html>
+{% endblock%}

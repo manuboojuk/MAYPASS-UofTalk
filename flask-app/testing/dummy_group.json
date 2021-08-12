@@ -1,0 +1,19 @@
+{
+    "roomid": "5858316818476053090",
+    "group_name" : "name",
+    "users": [
+        "aj",
+        "itzsaad",
+        "sharven"
+    ],
+    "type": "group",
+    "messages": [
+        {
+            "sender": "aj",
+            "message": "test1234",
+            "timestamp": {
+                "$date": "2021-03-09T18:56:45.588Z"
+            }
+        }
+    ]
+}

@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf8">
+		<title>UofTalk</title>
+		<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+		<link rel="preconnect" href="https://fonts.gstatic.com">
+		<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Montserrat:ital,wght@1,200;1,400&family=Open+Sans:ital@1&family=Roboto&display=swap" rel="stylesheet">
+	</head>
+	<body>
+		<section class="head">
+			<h1 class="logo">
+				UofTalk
+			</h1>
+			<p class="slogan">
+				BOUNDLESS CONNECTIONS
+			</p>
+		</section>
+		<section class="form">
+			<form action="" method="post" autocomplete="off">
+				<p>
+					<input class="text-field" type="text" name="email" placeholder="UofT Email" />
+				</p>
+				<p>
+					<input class="text-field" type="password" name="password" placeholder="Password" />
+				</p>
+				{% if status %}
+					<p class="error-msg">
+						{{ status }}
+					</p>
+				{% endif %}
+				<p>
+					<input class="submit" type="submit" name="submit" value="Sign-In" />
+				</p>
+			</form> 
+		</section>
+		<p class="register-link">
+			Don't have an account?
+			<a href="/register">Register Here</a>
+		</p>
+		<p class="register-link">
+			<a href="/forgot_password">Forgot my password</a>
+		</p>
+		<br>
+		<br>
+	</body>
+	<footer>
+		UofTalk is the best place to meet your fellow UofT students and have a good time!
+	</footer>
+</html>

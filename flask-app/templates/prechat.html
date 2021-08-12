@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% block page_title %}Chat{% endblock %}
+{% block content %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Pre Chat Lobby</title>
+</head>
+<body>
+    <h1> Active Chat Rooms: </h1>
+    {% for room in rooms%}
+        <p> <u><strong> Room {{room}} Members</strong>  </u></p>
+        {% for user in users[room]%}
+        <p> {{user}}</p>
+        {% endfor %}
+
+    {% endfor %}
+
+    <h3> Live Chat Room Activity: </h3>
+    
+    <div id="room_log"></div>
+</body>
+</html>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/3.1.1/socket.io.js"></script>
+<script>
+    const socket = io();
+
+    socket.on('public_join_room_announcement', function (data) {
+        console.log(data);
+        const announcementNode = document.createElement('div');
+        announcementNode.innerHTML = `<b>${data.username}</b> has entered room # <b>${data.room}</b>`;
+        document.getElementById('room_log').appendChild(announcementNode);
+
+    });
+
+    socket.on('public_leave_room_announcement', function (data) {
+        console.log(data);
+        const announcementNode = document.createElement('div');
+        announcementNode.innerHTML = `<b>${data.username}</b> has left room # <b>${data.room}</b>`;
+        document.getElementById('room_log').appendChild(announcementNode);
+
+    });
+
+    function validateEntry() {
+        var x = document.forms["join"]["username"].value;
+        var y = document.forms["join"]["room"].value;
+        if (x == "" && y == "") {
+            alert("Please fill in a Username and Room Name");
+            return false;
+        }
+        else if (x == ""){
+            alert("Username must be filled out");
+            return false;
+        }
+        else if (y == ""){
+            alert("Room name must be filled out");
+            return false;
+        }
+    }
+    
+    function validateActiveEntry(){
+
+        var x = document.forms["active_rooms"]["username"].value;
+        var r = document.forms["active_rooms"]["room"].value;
+
+        if (x == ""){
+            alert(`You must fill in a Username to enter Room ${r}`);
+            return false;
+        }
+    }
+</script>
+{% endblock%}

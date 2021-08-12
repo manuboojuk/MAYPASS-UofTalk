@@ -1,0 +1,8 @@
+flask
+flask-socketio
+pymongo
+eventlet
+matplotlib
+scikit-learn
+numpy
+flask-cors

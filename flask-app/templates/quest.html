@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+{% block page_title %}Questionnaire{% endblock %}
+{% block content %}
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+<style>
+  .centre{
+      margin: auto;
+      width: 50%;
+  }
+  body {
+      text-align:center;
+      background-color: #f2d4b1;
+    text-decoration: none;
+  }
+  /* text colour */
+  .btn{
+      color: brown;
+      border-color: brown;
+  }
+
+  .carousel-indicators{
+      bottom: auto;
+      top: -5%;
+  }
+
+  .carousel-indicators li {
+    background: brown;
+    opacity: 0.2;
+    margin: .5rem;
+    height: 10px;
+    border-radius: 20px;
+  }
+
+  .carousel-indicators li.active {
+    background: brown;
+  }
+</style>
+
+<form class="was-validated" action="/questionnaire" method="post">
+      <div class="container-fluid">
+        <h4 class="Q-title text-center mt-3">A Survey to get to know you</h4>
+        <div class="survey-head text-center">
+          <i class="fas fa-poll-h fa-3x blue-text mb-2"></i>
+          <p class="Q-sub-sub-title">This will help us match you with people like you!</p>
+        </div>
+        <br>
+        <br>
+        <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel" data-interval="false" style="border: solid 2px brown; border-radius: 20px; width: 80%; margin: 0 auto; padding: 25px;">
+          <ol class="carousel-indicators">
+            <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
+            <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
+          </ol>
+          <div class="carousel-inner">
+            <div class="carousel-item active">
+              {% for questionMusic in question_list['music'] %}
+                <p class="text-center display-5 Question" >{{ questionMusic['question'] }}</p>
+                <div class="btn-group" role="group">
+                  <input type="radio" class="btn-check" name="btnradiom{{questionMusic['number']}}" id="btnradiom{{questionMusic['number']}}-1" autocomplete="off" value=0  checked>
+                  <label class="btn btn-outline-danger" for="btnradiom{{questionMusic['number']}}-1">{{questionMusic['options'][0]}}</label>
+                
+                  <input type="radio" class="btn-check" name="btnradiom{{questionMusic['number']}}" id="btnradiom{{questionMusic['number']}}-2" autocomplete="off" value=1>
+                  <label class="btn btn-outline-danger" for="btnradiom{{questionMusic['number']}}-2">{{questionMusic['options'][1]}}</label>
+                
+                  <input type="radio" class="btn-check" name="btnradiom{{questionMusic['number']}}" id="btnradiom{{questionMusic['number']}}-3" autocomplete="off" value=2>
+                  <label class="btn btn-outline-danger" for="btnradiom{{questionMusic['number']}}-3">{{questionMusic['options'][2]}}</label>
+    
+                  <input type="radio" class="btn-check" name="btnradiom{{questionMusic['number']}}" id="btnradiom{{questionMusic['number']}}-4" autocomplete="off" value=3>
+                  <label class="btn btn-outline-danger" for="btnradiom{{questionMusic['number']}}-4">{{questionMusic['options'][3]}}</label>
+              
+                  <input type="radio" class="btn-check" name="btnradiom{{questionMusic['number']}}" id="btnradiom{{questionMusic['number']}}-5" autocomplete="off" value=4>
+                  <label class="btn btn-outline-danger" for="btnradiom{{questionMusic['number']}}-5">{{questionMusic['options'][4]}}</label>
+                </div>
+                <br>
+                <br>
+              {% endfor %}
+            </div>
+            <div class="carousel-item">
+              {% for questionMovie in question_list['movie'] %}
+                <p class="text-center display-5 Question" >{{ questionMovie['question'] }}</p>
+                <div class="btn-group" role="group">
+                  <input type="radio" class="btn-check" name="btnradiom{{questionMovie['number']}}" id="btnradiom{{questionMovie['number']}}-1" autocomplete="off" value=0  checked>
+                  <label class="btn btn-outline-danger" for="btnradiom{{questionMovie['number']}}-1">{{questionMovie['options'][0]}}</label>
+                
+                  <input type="radio" class="btn-check" name="btnradiom{{questionMovie['number']}}" id="btnradiom{{questionMovie['number']}}-2" autocomplete="off" value=1>
+                  <label class="btn btn-outline-danger" for="btnradiom{{questionMovie['number']}}-2">{{questionMovie['options'][1]}}</label>
+                
+                  <input type="radio" class="btn-check" name="btnradiom{{questionMovie['number']}}" id="btnradiom{{questionMovie['number']}}-3" autocomplete="off" value=2>
+                  <label class="btn btn-outline-danger" for="btnradiom{{questionMovie['number']}}-3">{{questionMovie['options'][2]}}</label>
+    
+                  <input type="radio" class="btn-check" name="btnradiom{{questionMovie['number']}}" id="btnradiom{{questionMovie['number']}}-4" autocomplete="off" value=3>
+                  <label class="btn btn-outline-danger" for="btnradiom{{questionMovie['number']}}-4">{{questionMovie['options'][3]}}</label>
+              
+                  <input type="radio" class="btn-check" name="btnradiom{{questionMovie['number']}}" id="btnradiom{{questionMovie['number']}}-5" autocomplete="off" value=4>
+                  <label class="btn btn-outline-danger" for="btnradiom{{questionMovie['number']}}-5">{{questionMovie['options'][4]}}</label>
+                </div>
+                <br>
+                <br>
+              {% endfor %}
+            </div>
+            <div class="carousel-item">
+              {% for questionGame in question_list['game'] %}
+                <p class="text-center display-5 Question" >{{ questionGame['question'] }}</p>
+                <div class="btn-group" role="group">
+                  <input type="radio" class="btn-check" name="btnradiom{{questionGame['number']}}" id="btnradiom{{questionGame['number']}}-1" autocomplete="off" value=0  checked>
+                  <label class="btn btn-outline-danger" for="btnradiom{{questionGame['number']}}-1">{{questionGame['options'][0]}}</label>
+                
+                  <input type="radio" class="btn-check" name="btnradiom{{questionGame['number']}}" id="btnradiom{{questionGame['number']}}-2" autocomplete="off" value=1>
+                  <label class="btn btn-outline-danger" for="btnradiom{{questionGame['number']}}-2">{{questionGame['options'][1]}}</label>
+                
+                  <input type="radio" class="btn-check" name="btnradiom{{questionGame['number']}}" id="btnradiom{{questionGame['number']}}-3" autocomplete="off" value=2>
+                  <label class="btn btn-outline-danger" for="btnradiom{{questionGame['number']}}-3">{{questionGame['options'][2]}}</label>
+    
+                  <input type="radio" class="btn-check" name="btnradiom{{questionGame['number']}}" id="btnradiom{{questionGame['number']}}-4" autocomplete="off" value=3>
+                  <label class="btn btn-outline-danger" for="btnradiom{{questionGame['number']}}-4">{{questionGame['options'][3]}}</label>
+              
+                  <input type="radio" class="btn-check" name="btnradiom{{questionGame['number']}}" id="btnradiom{{questionGame['number']}}-5" autocomplete="off" value=4>
+                  <label class="btn btn-outline-danger" for="btnradiom{{questionGame['number']}}-5">{{questionGame['options'][4]}}</label>
+                </div>
+                <br>
+                <br>
+              {% endfor %}
+              <input class="submit" type="submit" value="Submit">
+            </div>
+          </div>
+          <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev" style="background-color: brown; height: 50px; width: 75px;font-weight: bold; margin: 15% 0 0 1%; border-radius: 20px 20px 20px 20px;">
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="sr-only">Previous</span>
+          </a>
+          <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next" style="background-color: brown; height: 50px; width: 75px;font-weight: bold; margin: 15% 1% 0 0; border-radius: 20px 20px 20px 20px;">
+            <span class="sr-only">Next</span>
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+          </a>
+        </div>
+      </div>
+</form>
+
+{% endblock %}

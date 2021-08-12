@@ -1,0 +1,82 @@
+{% extends "base.html" %}
+{% block page_title %} Profile {% endblock %}
+{% block content %}
+<!DOCTYPE HTML>
+<html lang="en">
+    <head>
+        <meta charset="utf8">
+        <title>Profile</title>
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
+        <link rel="preconnect" href="https://fonts.gstatic.com">
+        <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@700&family=Montserrat:ital,wght@1,200;1,400&family=Open+Sans:ital@1&family=Roboto&display=swap" rel="stylesheet">
+        <script src="//cdnjs.cloudflare.com/ajax/libs/handlebars.js/2.0.0-alpha.1/handlebars.min.js"></script>
+        <script src="http://code.jquery.com/jquery-1.10.1.min.js"></script>
+        <script src="{{ url_for('static', filename='spotify.js') }}"></script>
+    </head>
+    <body>
+        <section class="head">
+            <img class="profile_pic" src="{{ url_for('static', filename='default_pic.png') }}" width="100" height="100" />
+            <h1 class="username">
+                {{ user_username }}
+            </h1>
+        </section>
+        <section>
+            <form action="#" method="post" autocomplete="off">
+                <textarea class="profile_bio_box" name="bio"  rows="5" cols="40">{{ user_bio }}</textarea>
+                <br>
+                <input class="submit" type="submit" name="submit" value="Update Bio" />
+            </form>
+        </section>
+        <section class="similarity-options">
+            <p class="match_settings_header">
+                Match Settings
+            </p>
+            <form action="#" method="post" autocomplete="off">
+                <select class="similarity-dropdown" id="cluster-gran" name="cluster-gran">
+                    <option value=15 {% if user_cluster_granularity == 15 %} selected="selected" {% endif %}>Very Similar</option>
+                    <option value=9 {% if user_cluster_granularity == 9 %} selected="selected" {% endif %}>Somewhat Similar</option>
+                    <option value=3 {% if user_cluster_granularity == 3 %} selected="selected" {% endif %}>Not Very Similar</option>
+                </select>
+                <input class="submit" type="submit" name="submit" value="Update Match Similarity" />
+            </form>
+        </section>
+        <div class="profile_links">
+            <a class="nav-link" href="/questionnaire">Retake Questionnaire</a>
+            <a class="nav-link" href="/survey">Retake Meme Survey</a>
+        </div>
+        <br>
+        {% if has_spotify %}
+        <p class="match_settings_header">
+            Top Spotify Artists
+        </p>
+            <div id="login">
+                <button class="submit" onclick="connect_spotify()">Update Spotify</button>
+            </div>
+            <br>
+            <br>
+            <div class="spotify-artist-container">
+                {% for artist in artist_list %}
+                    <div class="spotify-artist-image">
+                        <img src="{{ artist['images'][2]['url'] }}"> 
+                        <p style="font-family: Tahoma">{{ artist['name'] }}</p>
+                    </div>
+            {% endfor %}
+            </div>
+        {% else %}
+        <div id="login">
+            <button class="submit" onclick="connect_spotify()">Connect Spotify</button>
+        </div>
+        <br>
+        <br>
+        {% endif %}
+        <p class="match_settings_header">
+            Delete Account
+        </p>
+        <form action="/delete" method="POST" onsubmit="return confirm('Are you sure you want to delete your account?');">
+            <input type="submit" value="Delete Account">
+        </form>
+        <br>
+        <br>
+    </body>
+</html>
+{% endblock%}
